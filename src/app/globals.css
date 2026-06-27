@@ -1754,9 +1754,11 @@ details[open] .accordion-icon {
       .book-hero {
         background: #fff;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1.1fr 0.9fr;
         align-items: center;
-        padding: 10rem 0 7rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 10rem var(--space-lg) 7rem;
         position: relative;
         overflow: hidden;
       }
@@ -1778,7 +1780,7 @@ details[open] .accordion-icon {
       }
 
       .book-hero-text {
-        padding: 4rem 5rem 4rem 8rem;
+        padding: 4rem 2rem 4rem 0;
         position: relative;
         z-index: 2;
         animation: fadeSlideUp 0.85s ease both;
@@ -1894,11 +1896,29 @@ details[open] .accordion-icon {
       }
       .book-order-btn svg { width: 2rem; height: 2rem; }
 
+      .book-order-btn--outline {
+        background: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+      }
+      .book-order-btn--outline:hover {
+        background: var(--primary-color);
+        color: #fff;
+        box-shadow: 0 12px 40px rgba(149,5,227,0.25);
+      }
+
+      .book-btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.6rem;
+      }
+
       /* Book visual */
       .book-hero-visual {
         position: relative; z-index: 2;
         display: flex; justify-content: center; align-items: center;
-        padding: 4rem 8rem 4rem 2rem;
+        padding: 4rem 0;
         animation: fadeSlideUp 0.85s 0.15s ease both;
       }
 
@@ -2061,15 +2081,16 @@ details[open] .accordion-icon {
 
       /* ---- RESPONSIVE ---- */
       @media (max-width: 1024px) {
-        .book-hero-text { padding: 4rem 3rem 4rem 4rem; }
-        .book-hero-visual { padding: 4rem 4rem 4rem 2rem; }
+        .book-hero { padding: 8rem var(--space-md) 6rem; }
+        .book-hero-text { padding: 3rem 1.5rem 3rem 0; }
+        .book-hero-visual { padding: 3rem 0; }
         .book-3d-wrapper { width: 24rem; }
       }
 
       @media (max-width: 768px) {
-        .book-hero { grid-template-columns: 1fr; padding: 8rem 0 5rem; text-align: center; }
-        .book-hero-text { padding: 3rem 2.5rem 1rem; order: 2; }
-        .book-hero-visual { padding: 3rem 2.5rem 1rem; order: 1; }
+        .book-hero { grid-template-columns: 1fr; padding: 8rem var(--space-md) 5rem; text-align: center; }
+        .book-hero-text { padding: 3rem 0 1rem; order: 2; }
+        .book-hero-visual { padding: 3rem 0 1rem; order: 1; }
         .book-eyebrow { justify-content: center; }
         .book-hero-desc { max-width: 100%; }
         .book-authors-row { justify-content: center; }
@@ -2080,6 +2101,7 @@ details[open] .accordion-icon {
       @media (max-width: 480px) {
         .book-hero-text { padding: 2.5rem 2rem 1rem; }
         .book-order-btn { width: 100%; justify-content: center; }
+        .book-btn-row { flex-direction: column; }
       }
 
 /* ===== Active nav link (was referenced in old JS but never styled) ===== */

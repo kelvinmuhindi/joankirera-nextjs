@@ -47,28 +47,18 @@ export default async function BlogPostPage({ params }) {
           dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
         />
 
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: "5rem",
-            paddingTop: "4rem",
-            borderTop: "1px solid var(--border-color)",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "1.7rem",
-              color: "var(--text-medium)",
-              marginBottom: "2rem",
-            }}
-          >
-            If this resonated with you, Joan would love to walk this journey
-            with you.
-          </p>
-          <Link href="/contact" className="btn btn--primary">
-            Book a Session
-          </Link>
-        </div>
+        <footer className="blog-post-footer">
+          <div className="post-author-bio">
+            <p className="author-signature">
+              By Joan Kirera - Psychologist / Marriage and Family Therapist
+            </p>
+          </div>
+          <div className="post-navigation">
+            <Link href="/blog" className="btn btn--primary">
+              ← Back to All Posts
+            </Link>
+          </div>
+        </footer>
       </div>
     </article>
   );
