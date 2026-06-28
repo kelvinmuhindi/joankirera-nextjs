@@ -22,18 +22,23 @@ Visit http://localhost:3000.
 
 Copy `.env.example` to `.env.local` and fill in:
 
-### Email (contact form + purchase receipts)
+### Email (contact form + purchase receipts) — via Resend
 ```
-SMTP_HOST=smtp.yourprovider.com
-SMTP_PORT=587
-SMTP_USER=info@joankirera.com
-SMTP_PASS=your-password-or-app-password
-SMTP_FROM=info@joankirera.com
+RESEND_API_KEY=re_your_api_key_here
+MAIL_FROM=onboarding@resend.dev
 CONTACT_TO_EMAIL=info@joankirera.com
 ```
-Works with any normal mailbox (Gmail, Zoho, cPanel/WHM, Microsoft 365,
-etc). If using Gmail, you'll need an **App Password**, not your normal
-login password (Google account → Security → App passwords).
+1. Sign up free at [resend.com](https://resend.com) and create an API key
+   under **API Keys**.
+2. While testing, leave `MAIL_FROM` as `onboarding@resend.dev` — it
+   works immediately with zero setup, but can only deliver to the
+   email address on your Resend account.
+3. To send from your own address (e.g.
+   `Joan Kirera <notifications@joankirera.com>`), verify your domain
+   under **Domains** in the Resend dashboard first — this involves
+   adding a few DNS records, similar to setting up the site's own
+   domain.
+4. `CONTACT_TO_EMAIL` is where contact form submissions are delivered.
 
 ### M-Pesa (Daraja API)
 ```
@@ -174,29 +179,37 @@ data points; check your Vercel plan if you want longer history.
 
 ## 8. About the data storage
 
-Orders are stored in `data/orders.json` — a plain JSON file, written
-safely (atomic writes + an in-process write queue) by
-`src/lib/store.js`. This is intentionally simple: there's no database
-to set up, and it's enough for a single-server deployment serving one
-book. If you outgrow this (e.g. you deploy across multiple server
-instances, or add more products), swap the internals of
-`src/lib/store.js` for a real database — the rest of the app doesn't
-need to change.
+Orders and contact form submissions are stored in `data/orders.json`
+and `data/submissions.json` — plain JSON files, written safely (atomic
+writes + an in-process write queue) by `src/lib/store.js`. This is
+intentionally simple: there's no database to set up, and it's enough
+for a single-server deployment serving one book and a contact form. A
+submission is recorded regardless of whether the notification email
+succeeds, so a failed email never means a lost enquiry. If you outgrow
+this (e.g. you deploy across multiple server instances, or want an
+admin dashboard), swap the internals of `src/lib/store.js` for a real
+database — `src/lib/orders.js` and `src/lib/submissions.js` are the
+only callers, so the rest of the app doesn't need to change.
+
+To view submissions for now, open `data/submissions.json` directly —
+each entry has the visitor's details, the service they asked about,
+and whether the notification email sent successfully.
 
 ## 9. Project structure
 
 ```
 src/
   app/                 Pages (App Router) + API routes
-    api/contact/       Contact form -> email
+    api/contact/       Contact form -> stores submission + emails via Resend
     api/mpesa/         STK push, callback, status polling
     api/book/          Access verification + gated PDF streaming
     blog/[slug]/       Blog post pages (51 posts, statically generated)
     book/read/         The gated PDF reader
   components/          Header, Footer, forms, the book reader, etc.
   content/blog/        Extracted blog post content (JSON)
-  lib/                 Email, M-Pesa client, order storage, access tokens
-data/                  orders.json (created automatically)
+  lib/                 Resend email client, M-Pesa client, order +
+                       submission storage, access tokens
+data/                  orders.json, submissions.json (created automatically)
 private/book/          Where you put the real book PDF (not public!)
 public/images/         Photos, logos, social icons, blog images
 ```

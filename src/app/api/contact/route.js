@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendMail } from "@/lib/mail";
+import { recordSubmission } from "@/lib/submissions";
 
 const ContactSchema = z.object({
   name: z.string({ error: "Name is required" }).trim().min(1, "Name is required").max(200),
@@ -32,7 +33,7 @@ export async function POST(request) {
   }
 
   const { name, email, phone, service, eventDate, message } = parsed.data;
-  const recipient = process.env.CONTACT_TO_EMAIL || process.env.SMTP_USER;
+  const recipient = process.env.CONTACT_TO_EMAIL;
 
   const lines = [
     `Name: ${name}`,
@@ -67,11 +68,32 @@ export async function POST(request) {
     });
   } catch (err) {
     console.error("Contact form email failed:", err);
+    // Store the submission either way — a failed notification email
+    // should never mean we silently lose the enquiry itself.
+    await recordSubmission({
+      name,
+      email,
+      phone,
+      service,
+      eventDate,
+      message,
+      emailStatus: "failed",
+    });
     return NextResponse.json(
       { error: "We couldn't send your message right now. Please try again shortly, or email us directly." },
       { status: 502 }
     );
   }
+
+  await recordSubmission({
+    name,
+    email,
+    phone,
+    service,
+    eventDate,
+    message,
+    emailStatus: "sent",
+  });
 
   return NextResponse.json({ ok: true });
 }

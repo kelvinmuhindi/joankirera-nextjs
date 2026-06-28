@@ -1,39 +1,35 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-let cachedTransporter = null;
+let cachedClient = null;
 
-function getTransporter() {
-  if (cachedTransporter) return cachedTransporter;
+function getClient() {
+  if (cachedClient) return cachedClient;
 
-  const host = process.env.SMTP_HOST;
-  const port = Number(process.env.SMTP_PORT || 587);
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-
-  if (!host || !user || !pass) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
     throw new Error(
-      "SMTP_HOST / SMTP_USER / SMTP_PASS are not configured. Set them in .env.local"
+      "RESEND_API_KEY is not configured. Set it in .env.local — see .env.example"
     );
   }
 
-  cachedTransporter = nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465, // true for 465, false for other ports (STARTTLS)
-    auth: { user, pass },
-  });
-
-  return cachedTransporter;
+  cachedClient = new Resend(apiKey);
+  return cachedClient;
 }
 
 /**
- * Send an email via the configured SMTP account.
+ * Send an email via Resend.
+ *
+ * Until you verify your own sending domain in Resend, set
+ * MAIL_FROM to their sandbox address (onboarding@resend.dev) — it
+ * works immediately with no DNS setup, but can only send to the
+ * email address on your Resend account. Switch to your own domain
+ * once verified, see .env.example for details.
  */
 export async function sendMail({ to, subject, text, html, replyTo }) {
-  const transporter = getTransporter();
-  const from = process.env.SMTP_FROM || process.env.SMTP_USER;
+  const client = getClient();
+  const from = process.env.MAIL_FROM || "onboarding@resend.dev";
 
-  return transporter.sendMail({
+  const { data, error } = await client.emails.send({
     from,
     to,
     subject,
@@ -41,4 +37,12 @@ export async function sendMail({ to, subject, text, html, replyTo }) {
     html,
     replyTo,
   });
+
+  if (error) {
+    throw new Error(
+      `Resend error: ${error.message || JSON.stringify(error)}`
+    );
+  }
+
+  return data;
 }
