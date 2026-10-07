@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   turbopack: {
     resolveAlias: {
       // pdfjs-dist (used by react-pdf) optionally imports `canvas` for
