@@ -66,21 +66,10 @@ function ChevronIcon() {
 export default function FaqsPage() {
   return (
     <>
-      <section
-        className="section-padding"
-        style={{ background: "linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)" }}
-      >
+      <section className="section-padding page-hero">
         <div className="container">
           <h2 className="text-center fade-in-up">Frequently Asked Questions</h2>
-          <p
-            className="text-center fade-in-up"
-            style={{
-              fontSize: "1.8rem",
-              color: "var(--text-medium)",
-              maxWidth: "700px",
-              margin: "2rem auto 0",
-            }}
-          >
+          <p className="page-hero__lede fade-in-up">
             Your guide to understanding therapy, counseling sessions, and
             Joan Kirera&apos;s expertise in mental health.
           </p>
@@ -93,7 +82,7 @@ export default function FaqsPage() {
             <details className="fade-in" open={i === 0} key={faq.q}>
               <summary>
                 <span className="accordion-title">{faq.q}</span>
-                <span className="accordion-icon">
+                <span className="accordion-icon" aria-hidden="true">
                   <ChevronIcon />
                 </span>
               </summary>
@@ -102,29 +91,11 @@ export default function FaqsPage() {
           ))}
         </div>
 
-        <div
-          className="container"
-          style={{ textAlign: "center", marginTop: "6rem" }}
-        >
-          <h3
-            style={{
-              fontSize: "3rem",
-              marginBottom: "1.5rem",
-              color: "var(--text-dark)",
-            }}
-          >
+        <div className="container cta-block">
+          <h3 className="cta-block__title">
             Still Have Questions?
           </h3>
-          <p
-            style={{
-              fontSize: "1.8rem",
-              color: "var(--text-medium)",
-              marginBottom: "2.5rem",
-              maxWidth: "600px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
+          <p className="cta-block__text">
             Don&apos;t hesitate to reach out. We&apos;re here to help you on
             your journey to wellness.
           </p>

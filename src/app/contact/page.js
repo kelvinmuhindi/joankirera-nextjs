@@ -10,18 +10,10 @@ export default function ContactPage() {
   return (
     <section className="contact section-padding">
       <div className="container">
-        <h2 className="text-center fade-in-up" style={{ marginBottom: "2rem" }}>
+        <h2 className="text-center fade-in-up">
           Get In Touch
         </h2>
-        <p
-          className="text-center fade-in-up"
-          style={{
-            fontSize: "1.8rem",
-            color: "var(--text-medium)",
-            maxWidth: "600px",
-            margin: "0 auto 4rem",
-          }}
-        >
+        <p className="page-hero__lede fade-in-up">
           Ready to start your journey towards healing and growth? Reach out
           today to schedule your session.
         </p>
@@ -29,7 +21,7 @@ export default function ContactPage() {
         <div className="contact__layout">
           <div className="contact__details fade-in">
             <div className="working-hours">
-              <h2 className="workinghours" style={{ color: "black" }}>
+              <h2 className="workinghours">
                 Working Hours
               </h2>
 
@@ -50,8 +42,8 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="working-hours" style={{ marginTop: "3rem" }}>
-              <h2 className="workinghours" style={{ color: "black" }}>
+            <div className="working-hours working-hours--spaced">
+              <h2 className="workinghours">
                 Contact Information
               </h2>
 
@@ -60,7 +52,7 @@ export default function ContactPage() {
               </p>
               <ul>
                 <li>
-                  <a href="tel:+254721859922" style={{ color: "var(--primary-color)" }}>
+                  <a href="tel:+254721859922" className="contact__link">
                     +254 721 859 922
                   </a>
                 </li>
@@ -73,7 +65,7 @@ export default function ContactPage() {
                 <li>
                   <a
                     href="mailto:elpis@joankirera.com"
-                    style={{ textDecoration: "underline", color: "var(--primary-color)" }}
+                    className="contact__link contact__link--underline"
                   >
                     elpis@joankirera.com
                   </a>
@@ -81,7 +73,7 @@ export default function ContactPage() {
                 <li>
                   <a
                     href="mailto:info@joankirera.com"
-                    style={{ textDecoration: "underline", color: "var(--primary-color)" }}
+                    className="contact__link contact__link--underline"
                   >
                     info@joankirera.com
                   </a>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const metadata = {
   title: "About Joan Kirera",
   description:
@@ -8,11 +10,13 @@ export default function AboutPage() {
   return (
     <section className="profile-section">
       <div className="profile-image">
-        <img
+        <Image
           src="/images/joan-kirera.jpeg"
           alt="Joan Kirera - Professional Therapist"
-          loading="eager"
-          className="fade-in"
+          width={856}
+          height={1083}
+          preload
+          sizes="(max-width: 900px) 80vw, 380px"
         />
       </div>
 

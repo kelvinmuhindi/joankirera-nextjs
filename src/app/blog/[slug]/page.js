@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllBlogMeta, getBlogPost } from "@/lib/blog";
@@ -33,17 +34,20 @@ export default async function BlogPostPage({ params }) {
 
         {post.image && (
           <div className="blog-post-image-wrapper fade-in">
-            <img
+            <Image
               src={post.image}
               alt={post.title}
-              loading="lazy"
+              width={1200}
+              height={675}
+              preload
+              sizes="(max-width: 900px) 100vw, 860px"
               className="blog-post-image"
             />
           </div>
         )}
 
         <div
-          className="blog-post-content fade-in"
+          className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
         />
 

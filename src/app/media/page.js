@@ -35,21 +35,10 @@ const VIDEOS = [
 export default function MediaPage() {
   return (
     <>
-      <section
-        className="section-padding"
-        style={{ background: "linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)" }}
-      >
+      <section className="section-padding page-hero">
         <div className="container">
           <h2 className="text-center fade-in-up">Broadcast Interviews</h2>
-          <p
-            className="text-center fade-in-up"
-            style={{
-              fontSize: "1.8rem",
-              color: "var(--text-medium)",
-              maxWidth: "800px",
-              margin: "2rem auto 0",
-            }}
-          >
+          <p className="page-hero__lede fade-in-up">
             Joan Kirera is a leading expert in counseling psychology,
             marriage and child therapy, frequently sharing her knowledge
             through media appearances, including interviews, TV segments,
@@ -81,14 +70,8 @@ export default function MediaPage() {
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: "6rem" }}>
-            <p
-              style={{
-                fontSize: "1.8rem",
-                color: "var(--text-medium)",
-                marginBottom: "2rem",
-              }}
-            >
+          <div className="cta-block">
+            <p className="cta-block__text">
               Interested in booking Joan for a media appearance or interview?
             </p>
             <Link href="/contact" className="btn btn--primary">

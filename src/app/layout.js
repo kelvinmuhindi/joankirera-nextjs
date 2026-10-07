@@ -5,7 +5,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
-import FadeInObserver from "@/components/FadeInObserver";
 
 const playfair = localFont({
   src: [
@@ -39,11 +38,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${playfair.variable} ${sourceSans.variable}`}>
       <body>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <Header />
-        {children}
+        <main id="main">{children}</main>
         <Footer />
         <ScrollToTopButton />
-        <FadeInObserver />
         <Analytics />
         <SpeedInsights />
       </body>
