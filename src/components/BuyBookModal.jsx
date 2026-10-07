@@ -164,7 +164,7 @@ export default function BuyBookModal({ open, onClose, priceLabel }) {
               <span className="pay-spinner" />
               Check your phone — enter your M-Pesa PIN to complete payment.
             </div>
-            <p style={{ fontSize: "1.4rem", color: "var(--text-light)" }}>
+            <p className="pay-note">
               We&apos;re waiting for confirmation. This usually takes a few
               seconds after you enter your PIN.
             </p>

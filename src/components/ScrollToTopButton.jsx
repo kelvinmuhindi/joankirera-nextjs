@@ -9,7 +9,7 @@ export default function ScrollToTopButton() {
     function onScroll() {
       setVisible(window.scrollY > 100);
     }
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -19,7 +19,7 @@ export default function ScrollToTopButton() {
       id="goTopBtn"
       title="Scroll to top"
       aria-label="Scroll to top"
-      style={{ display: visible ? "block" : "none" }}
+      className={visible ? "is-visible" : undefined}
     >
       ↑
     </button>

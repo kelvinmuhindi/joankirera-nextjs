@@ -3,26 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const NAV_LINKS = [
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-  { href: "/book", label: "Book" },
-  { href: "/media", label: "Media" },
-  { href: "/faqs", label: "FAQs" },
-];
-
-const SOCIALS = [
-  { href: "https://www.instagram.com/just.kirera/", label: "Instagram", icon: "instagram.svg" },
-  { href: "https://www.facebook.com/joan.kirera/", label: "Facebook", icon: "facebook.svg" },
-  { href: "https://www.youtube.com/channel/UCoK7sAgd8BIze1Czu3d66kg", label: "YouTube", icon: "youtube.svg" },
-  { href: "https://www.linkedin.com/in/joan-kirera-135b2bb5/", label: "LinkedIn", icon: "linkedin.svg" },
-];
+import { NAV_LINKS, SOCIALS } from "@/lib/site";
 
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [lastPathname, setLastPathname] = useState(pathname);
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
   const hamRef = useRef(null);
 
@@ -34,6 +21,14 @@ export default function Header() {
     setLastPathname(pathname);
     if (menuOpen) setMenuOpen(false);
   }
+
+  // Tighten the header and add a divider once the page has scrolled
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close on escape / outside click, lock body scroll while open
   useEffect(() => {
@@ -62,7 +57,7 @@ export default function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="header" id="header">
+    <header className={`header${scrolled ? " scrolled" : ""}`} id="header">
       <div className="header__content">
         <div className="header__logo-container">
           <Link href="/" className="header__logo-link" aria-label="Joan Kirera Home">
@@ -95,6 +90,7 @@ export default function Header() {
           className="header__main-ham-menu-cont"
           aria-label="Toggle mobile menu"
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           onClick={() => setMenuOpen((open) => !open)}
         >
           <div className={`ham-icon${menuOpen ? " active" : ""}`}>
@@ -107,6 +103,7 @@ export default function Header() {
 
       <div
         ref={menuRef}
+        id="mobile-menu"
         className={`header__sm-menu${menuOpen ? " header__sm-menu--active" : ""}`}
       >
         <div className="header__sm-menu-content">
@@ -134,7 +131,7 @@ export default function Header() {
                 rel="noopener noreferrer"
                 aria-label={s.label}
               >
-                <img src={`/images/social/${s.icon}`} alt={s.label} />
+                <img src={`/images/social/${s.icon}`} alt="" width={22} height={22} />
               </a>
             ))}
           </div>

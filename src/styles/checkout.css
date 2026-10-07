@@ -1,0 +1,194 @@
+/* ===== Book purchase / M-Pesa payment UI ===== */
+.pay-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 30, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeIn 0.2s ease both;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.pay-modal {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  max-width: 460px;
+  width: 100%;
+  padding: 3rem;
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  animation: fadeSlideUp 0.3s ease both;
+}
+
+.pay-modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.pay-modal-close:hover { color: var(--text-dark); }
+
+.pay-modal-title {
+  font-family: var(--ff-playfair);
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.pay-modal-price {
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.pay-field {
+  margin-bottom: 1.6rem;
+}
+.pay-field label {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.6rem;
+}
+.pay-field input {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1.5rem;
+  font-family: inherit;
+  transition: border-color var(--transition-base);
+}
+.pay-field input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.pay-status {
+  font-size: 1.4rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.pay-status--info { background: #f0e9fb; color: var(--primary-dark); }
+.pay-status--error { background: #fde8e8; color: #b91c1c; }
+.pay-status--success { background: #e6f8ed; color: #15803d; }
+
+.pay-spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 2.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.pay-submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+.pay-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ===== Book reader (gated PDF viewer) ===== */
+.reader-shell {
+  min-height: 100vh;
+  background: #f4f1f8;
+  display: flex;
+  flex-direction: column;
+}
+
+.reader-topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.2rem var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.reader-topbar-title {
+  font-family: var(--ff-playfair);
+  font-size: 1.7rem;
+  color: var(--text-dark);
+}
+
+.reader-page-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.4rem;
+  color: var(--text-medium);
+}
+.reader-page-controls button {
+  background: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  width: 3.4rem;
+  height: 3.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.reader-page-controls button:hover:not(:disabled) {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+.reader-page-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.reader-canvas-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  overflow: auto;
+}
+
+.reader-gate {
+  max-width: 480px;
+  margin: 8rem auto;
+  text-align: center;
+  padding: 0 2rem;
+}
+.reader-gate h1 {
+  font-family: var(--ff-playfair);
+  font-size: 2.6rem;
+  margin-bottom: 1.2rem;
+}
+.reader-gate p {
+  font-size: 1.6rem;
+  margin-bottom: 2.4rem;
+}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import BuyBookModal from "@/components/BuyBookModal";
 
@@ -57,11 +58,26 @@ function PhoneOrderIcon() {
 export default function BookPageClient() {
   const [openChapter, setOpenChapter] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [showBar, setShowBar] = useState(false);
+  const heroButtonsRef = useRef(null);
+
+  // Show the mobile buy bar once the hero buttons have scrolled out of view
+  useEffect(() => {
+    const el = heroButtonsRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => setShowBar(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <>
       {/* HERO */}
       <section className="book-hero">
+        <div className="book-hero__inner">
         <div className="book-hero-text">
           <span className="book-eyebrow">New Book</span>
           <h1 className="book-hero-title">
@@ -81,7 +97,7 @@ export default function BookPageClient() {
 
           <div className="book-authors-row">
             <div className="book-author-chip">
-              <img src="/images/joan-kirera.jpeg" alt="Joan Kirera" />
+              <Image src="/images/joan-kirera.jpeg" alt="" width={72} height={91} />
               <span>Joan Kirera</span>
             </div>
             <span className="book-authors-divider">&amp;</span>
@@ -91,7 +107,7 @@ export default function BookPageClient() {
             </div>
           </div>
 
-          <div className="book-btn-row">
+          <div className="book-btn-row" ref={heroButtonsRef}>
             <button className="book-order-btn" onClick={() => setModalOpen(true)}>
               <BookOrderIcon />
               Read Online — {BOOK_PRICE_LABEL}
@@ -105,12 +121,17 @@ export default function BookPageClient() {
 
         <div className="book-hero-visual">
           <div className="book-3d-wrapper">
-            <img
+            <Image
               className="book-cover-img"
               src="/images/book-cover.jpeg"
               alt="From Dating to Marriage – Dr. Rose Misati & Joan Kirera"
+              width={1024}
+              height={1536}
+              preload
+              sizes="(max-width: 900px) 240px, 320px"
             />
           </div>
+        </div>
         </div>
       </section>
 
@@ -198,16 +219,30 @@ export default function BookPageClient() {
                 className={`chapter-item${openChapter === i ? " open" : ""}`}
                 key={chapter.num}
               >
+                <h3 className="chapter-heading">
+                  <button
+                    type="button"
+                    className="chapter-header"
+                    aria-expanded={openChapter === i}
+                    aria-controls={`chapter-panel-${i}`}
+                    id={`chapter-tab-${i}`}
+                    onClick={() => setOpenChapter(openChapter === i ? -1 : i)}
+                  >
+                    <span className="chapter-num">{chapter.num}</span>
+                    <span className="chapter-title-text">{chapter.title}</span>
+                    <span className="chapter-arrow" aria-hidden="true">▾</span>
+                  </button>
+                </h3>
                 <div
-                  className="chapter-header"
-                  onClick={() => setOpenChapter(openChapter === i ? -1 : i)}
+                  className="chapter-body"
+                  id={`chapter-panel-${i}`}
+                  role="region"
+                  aria-labelledby={`chapter-tab-${i}`}
+                  inert={openChapter !== i}
                 >
-                  <span className="chapter-num">{chapter.num}</span>
-                  <h3 className="chapter-title-text">{chapter.title}</h3>
-                  <span className="chapter-arrow">▾</span>
-                </div>
-                <div className="chapter-body">
-                  <p>{chapter.body}</p>
+                  <div className="chapter-body__inner">
+                    <p>{chapter.body}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -220,7 +255,7 @@ export default function BookPageClient() {
         <div className="book-cta-inner">
           <span className="book-section-label">Get Your Copy</span>
           <h2 className="book-cta-title">
-            Ready to Build a <span>Lasting Marriage?</span>
+            Ready to Build a Lasting Marriage?
           </h2>
           <p className="book-cta-desc">
             Read <em>From Dating to Marriage</em> online instantly, or order
@@ -229,7 +264,7 @@ export default function BookPageClient() {
           </p>
 
           <div className="book-cta-btn-wrap">
-            <div className="book-btn-row" style={{ justifyContent: "center" }}>
+            <div className="book-btn-row book-btn-row--center">
               <button className="book-order-btn" onClick={() => setModalOpen(true)}>
                 <BookOrderIcon />
                 Read Online — {BOOK_PRICE_LABEL}
@@ -249,6 +284,18 @@ export default function BookPageClient() {
           </p>
         </div>
       </section>
+
+      <div className={`book-sticky-bar${showBar ? " is-visible" : ""}`} aria-hidden={!showBar}>
+        <span className="book-sticky-bar__price">{BOOK_PRICE_LABEL}</span>
+        <button
+          className="book-order-btn"
+          tabIndex={showBar ? 0 : -1}
+          onClick={() => setModalOpen(true)}
+        >
+          <BookOrderIcon />
+          Read Online
+        </button>
+      </div>
 
       <BuyBookModal
         open={modalOpen}

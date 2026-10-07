@@ -1,0 +1,190 @@
+/* =====================================================
+   Home: hero, tools list, about
+   Three distinct bands: lavender wash, deep plum, white.
+   ===================================================== */
+
+/* ---------- Hero ---------- */
+.intro {
+  background: var(--wash);
+  padding: var(--space-3xl) 0;
+}
+
+.intro__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(4rem, 8vw, 9rem);
+  align-items: center;
+}
+
+.image-container {
+  position: relative;
+  max-width: 46rem;
+  width: 100%;
+  isolation: isolate;
+}
+
+/* Offset plum block gives the portrait depth without a drop shadow */
+.image-container::before {
+  content: "";
+  position: absolute;
+  inset: 2.4rem -2.4rem -2.4rem 2.4rem;
+  background: var(--wash-deep);
+  border-radius: 1.2rem 9rem 1.2rem 1.2rem;
+  z-index: -1;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 1.2rem 9rem 1.2rem 1.2rem;
+}
+
+.intro-text h1 {
+  color: var(--plum);
+  margin-bottom: var(--space-lg);
+}
+
+.intro-text p {
+  font-size: 2.1rem;
+  line-height: 1.6;
+  color: var(--text-medium);
+  max-width: 54rem;
+  margin-bottom: var(--space-xl);
+}
+
+/* The one orchestrated moment on the page: the intro rises in once */
+@media (prefers-reduced-motion: no-preference) {
+  .intro-text > * { animation: heroRise 0.8s ease both; }
+  .intro-text > :nth-child(2) { animation-delay: 0.12s; }
+  .intro-text > :nth-child(3) { animation-delay: 0.24s; }
+  .image-container { animation: heroRise 0.9s ease both; }
+}
+
+@media (max-width: 900px) {
+  .intro { padding: var(--space-2xl) 0 var(--space-3xl); }
+  .intro__inner { grid-template-columns: 1fr; gap: 6rem; text-align: center; }
+  .image-container { max-width: 32rem; margin: 0 auto; }
+  .image-container::before { inset: 1.6rem -1.2rem -1.6rem 1.2rem; }
+  .intro-text p { margin-left: auto; margin-right: auto; }
+}
+
+/* ---------- Tools list ---------- */
+.self-care-strategy {
+  background: var(--plum);
+  color: var(--white);
+  padding: var(--space-3xl) 0;
+}
+
+.self-care-strategy__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: clamp(4rem, 7vw, 8rem);
+  align-items: start;
+}
+
+.self-care-strategy h2 {
+  color: var(--white);
+  margin: 0;
+  position: sticky;
+  top: calc(var(--header-h) + 3rem);
+}
+
+.strategy-items {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-xl);
+}
+
+.strategy-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 2.2rem 0 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.strategy-item__num {
+  font-family: var(--ff-playfair);
+  font-size: 3.6rem;
+  line-height: 1;
+  color: #d9a3f7;
+}
+
+.strategy-item__text {
+  font-size: 2.1rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 900px) {
+  .self-care-strategy { padding: var(--space-2xl) 0; }
+  .self-care-strategy__inner { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .self-care-strategy h2 { position: static; }
+}
+
+@media (max-width: 560px) {
+  .strategy-items { grid-template-columns: 1fr; }
+}
+
+/* ---------- About ---------- */
+.about { background: var(--white); }
+
+.about__content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(3rem, 6vw, 8rem);
+  align-items: start;
+}
+
+.about__content-title { color: var(--plum); margin-bottom: var(--space-md); }
+
+.about__content-details-para {
+  font-size: 2rem;
+  line-height: 1.7;
+  margin-bottom: var(--space-xl);
+}
+
+.about__col--panel {
+  background: var(--wash);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  padding: var(--space-xl);
+}
+
+.about__content ul { list-style: none; }
+
+.about__content li {
+  position: relative;
+  padding: 1.4rem 0 1.4rem 3.2rem;
+  font-size: 1.9rem;
+  line-height: 1.55;
+  color: var(--text-medium);
+  border-top: 1px solid var(--border-color);
+}
+
+.about__content li:first-child { border-top: none; padding-top: 0.4rem; }
+.about__content li:first-child::before { top: 0.5rem; }
+
+.about__content li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.9rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  background: var(--primary-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@media (max-width: 900px) {
+  .about__content { grid-template-columns: 1fr; }
+}

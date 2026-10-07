@@ -62,7 +62,7 @@ export default function ContactForm() {
 
   if (result?.ok) {
     return (
-      <div className="pay-status pay-status--success" style={{ fontSize: "1.6rem" }}>
+      <div className="pay-status pay-status--success">
         Thank you, {form.name || "friend"}! Your message has been sent — we&apos;ll
         be in touch shortly.
       </div>
@@ -72,7 +72,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="contact__form">
       {result?.error && (
-        <div className="pay-status pay-status--error" style={{ marginBottom: "2rem" }}>
+        <div className="pay-status pay-status--error pay-status--spaced">
           {result.error}
         </div>
       )}

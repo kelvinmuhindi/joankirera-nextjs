@@ -1,0 +1,22 @@
+/* =====================================================
+   Shared page patterns: page header band + closing call to action
+   ===================================================== */
+.page-hero {
+  background: var(--wash);
+  text-align: center;
+}
+
+.page-hero h2 { color: var(--plum); margin-bottom: var(--space-md); }
+
+.page-hero__lede {
+  max-width: 72ch;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 1.7;
+}
+
+.cta-block { text-align: center; margin-top: var(--space-3xl); }
+.cta-block__title { font-size: 3.2rem; color: var(--plum); margin-bottom: var(--space-md); }
+.cta-block__text { font-size: 1.9rem; max-width: 60ch; margin: 0 auto var(--space-lg); }
+.pay-note { font-size: 1.5rem; color: var(--text-light); }

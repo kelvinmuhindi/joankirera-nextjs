@@ -126,7 +126,7 @@ export default function BookReader({ token }) {
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
-            loading={<p style={{ fontSize: "1.6rem" }}>Loading book…</p>}
+            loading={<p className="pay-note">Loading book…</p>}
           >
             <Page
               pageNumber={pageNumber}

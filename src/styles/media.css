@@ -1,0 +1,22 @@
+/* ==================== MEDIA ==================== */
+.video-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 40rem), 1fr));
+  gap: var(--space-xl) var(--space-lg);
+  margin: 0;
+}
+
+.video-block { overflow: hidden; }
+
+.sqs-video-wrapper {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--plum);
+}
+
+.sqs-video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+.video-caption { padding: var(--space-md) 0 0; font-size: 1.7rem; line-height: 1.5; color: var(--text-medium); }
+.video-caption strong { font-weight: 600; color: var(--text-dark); }

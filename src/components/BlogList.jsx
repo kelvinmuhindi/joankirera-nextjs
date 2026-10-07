@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const CATEGORIES = [
@@ -19,6 +20,9 @@ const CATEGORIES = [
 ];
 
 const POSTS_PER_PAGE = 12;
+const CATEGORY_LABELS = Object.fromEntries(
+  CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
+);
 
 function formatDate(dateStr) {
   const date = new Date(dateStr);
@@ -56,19 +60,15 @@ export default function BlogList({ posts }) {
 
   function goToPage(p) {
     setPage(p);
-    if (p > 1) {
-      const section = document.getElementById("postsSection");
-      if (section) {
-        const header = document.getElementById("header");
-        const headerHeight = header ? header.offsetHeight : 0;
-        const top =
-          section.getBoundingClientRect().top +
-          window.pageYOffset -
-          headerHeight -
-          20;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-    }
+    const section = document.getElementById("postsSection");
+    if (!section) return;
+    // Offset for the sticky header and the sticky filter bar
+    const stickyHeight =
+      (document.getElementById("header")?.offsetHeight ?? 0) +
+      (document.querySelector(".blog-filters")?.offsetHeight ?? 0);
+    const top =
+      section.getBoundingClientRect().top + window.scrollY - stickyHeight - 16;
+    window.scrollTo({ top, behavior: "smooth" });
   }
 
   // Build page numbers with ellipsis, mirroring the original pagination logic
@@ -85,129 +85,141 @@ export default function BlogList({ posts }) {
     }
   }
 
+  const showFeatured = currentPage === 1 && !search.trim() && !category;
+
   return (
     <>
       <section className="latest-posts-container">
         <div className="container">
           <h2 className="fade-in-up">Latest Posts</h2>
-
-          <div className="search-category-wrapper fade-in">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search articles..."
-              aria-label="Search blog posts"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-            />
-
-            <select
-              className="category-dropdown"
-              aria-label="Filter by category"
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                setPage(1);
-              }}
-            >
-              {CATEGORIES.map((c) => (
-                <option value={c.value} key={c.value || "all"}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       </section>
 
+      <div className="blog-filters">
+        <div className="container blog-filters__inner">
+          <input
+            type="search"
+            className="search-input"
+            placeholder="Search articles..."
+            aria-label="Search blog posts"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+
+          <div className="category-chips" role="group" aria-label="Filter by category">
+            {CATEGORIES.map((c) => (
+              <button
+                type="button"
+                key={c.value || "all"}
+                className={`chip${category === c.value ? " chip--active" : ""}`}
+                aria-pressed={category === c.value}
+                onClick={() => {
+                  setCategory(c.value);
+                  setPage(1);
+                }}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <section className="posts" id="postsSection">
         {postsToShow.length === 0 ? (
-          <div className="container" style={{ textAlign: "center", padding: "60px 20px" }}>
-            <p style={{ fontSize: "2rem", color: "#4a4a4a" }}>No posts found</p>
-            <p style={{ fontSize: "1.6rem", color: "#6b7280", marginTop: "10px" }}>
-              Try adjusting your search or filter criteria
-            </p>
+          <div className="posts__empty">
+            <p className="posts__empty-title">No posts found</p>
+            <p>Try adjusting your search or filter criteria</p>
           </div>
         ) : (
-          postsToShow.map((post, index) => (
-            <div
-              className="panel fade-in"
-              data-category={post.category}
-              key={post.slug}
-              style={{ animationDelay: `${index * 0.05}s` }}
-            >
-              <Link href={`/blog/${post.slug}`} className="image-link">
-                <img src={post.image} alt={post.title} loading="lazy" />
-              </Link>
-              <div className="date">{formatDate(post.date)}</div>
-              <Link href={`/blog/${post.slug}`} className="title">
-                {post.title}
-              </Link>
-            </div>
-          ))
+          postsToShow.map((post, index) => {
+            const featured = showFeatured && index === 0;
+            return (
+              <article
+                className={`panel${featured ? " panel--featured" : ""}`}
+                data-category={post.category}
+                key={post.slug}
+              >
+                <div className="panel__media">
+                  <Image
+                    src={post.image}
+                    alt=""
+                    fill
+                    sizes={
+                      featured
+                        ? "(max-width: 900px) 100vw, 640px"
+                        : "(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 380px"
+                    }
+                  />
+                </div>
+                <div className="panel__body">
+                  <div className="panel__meta">
+                    <span className="panel__tag">
+                      {CATEGORY_LABELS[post.category] || post.category}
+                    </span>
+                    <span className="date">{formatDate(post.date)}</span>
+                  </div>
+                  <Link href={`/blog/${post.slug}`} className="title">
+                    {post.title}
+                  </Link>
+                </div>
+              </article>
+            );
+          })
         )}
       </section>
 
       {totalPages > 1 && (
-        <section>
-          <ul className="pagination" aria-label="Blog pagination">
+        <nav aria-label="Blog pagination">
+          <ul className="pagination">
             {currentPage > 1 && (
               <li>
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="Previous page"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    goToPage(currentPage - 1);
-                  }}
+                  onClick={() => goToPage(currentPage - 1)}
                 >
                   ←
-                </a>
+                </button>
               </li>
             )}
 
             {pageNumbers.map((p) =>
               typeof p === "number" ? (
                 <li key={p}>
-                  <a
-                    href="#"
+                  <button
+                    type="button"
                     aria-label={`Page ${p}`}
                     aria-current={p === currentPage ? "page" : undefined}
                     className={p === currentPage ? "active" : undefined}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      goToPage(p);
-                    }}
+                    onClick={() => goToPage(p)}
                   >
                     {p}
-                  </a>
+                  </button>
                 </li>
               ) : (
-                <li key={p}>
-                  <span style={{ padding: "10px", color: "#6b7280" }}>…</span>
+                <li key={p} className="pagination__gap" aria-hidden="true">
+                  …
                 </li>
               )
             )}
 
             {currentPage < totalPages && (
               <li>
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="Next page"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    goToPage(currentPage + 1);
-                  }}
+                  onClick={() => goToPage(currentPage + 1)}
                 >
                   →
-                </a>
+                </button>
               </li>
             )}
           </ul>
-        </section>
+        </nav>
       )}
     </>
   );

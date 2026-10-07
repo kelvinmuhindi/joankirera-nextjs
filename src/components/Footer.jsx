@@ -1,9 +1,5 @@
-const SOCIALS = [
-  { href: "https://www.instagram.com/just.kirera/", label: "Instagram", icon: "instagram.svg" },
-  { href: "https://www.facebook.com/joan.kirera/", label: "Facebook", icon: "facebook.svg" },
-  { href: "https://www.youtube.com/channel/UCoK7sAgd8BIze1Czu3d66kg", label: "YouTube", icon: "youtube.svg" },
-  { href: "https://www.linkedin.com/in/joan-kirera-135b2bb5/", label: "LinkedIn", icon: "linkedin.svg" },
-];
+import Link from "next/link";
+import { NAV_LINKS, SOCIALS } from "@/lib/site";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -23,16 +19,33 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   href={s.href}
                   aria-label={s.label}
+                  className="main-footer__social-link"
                 >
                   <img
                     className="main-footer__icon"
                     src={`/images/social/${s.icon}`}
-                    alt={s.label}
+                    alt=""
+                    width={20}
+                    height={20}
                   />
                 </a>
               ))}
             </div>
           </div>
+
+          <nav className="main-footer__row main-footer__nav" aria-label="Footer">
+            <ul>
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}>{link.label}</Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
+            </ul>
+          </nav>
+
           <div className="main-footer__row main-footer__row-2">
             <div className="working-hours">
               <h2 className="workinghours">Working Hours</h2>
