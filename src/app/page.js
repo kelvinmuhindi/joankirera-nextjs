@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 
 const TOOLS = [
@@ -17,7 +17,7 @@ export default function HomePage() {
       <section className="intro">
         <div className="intro__inner">
           <div className="image-container">
-            <Image
+            <SafeImage
               src="/images/joan-kirera.jpeg"
               alt="Joan Kirera - Professional Therapist and Speaker"
               width={856}

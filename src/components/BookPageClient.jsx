@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 import BuyBookModal from "@/components/BuyBookModal";
 
@@ -97,7 +97,7 @@ export default function BookPageClient() {
 
           <div className="book-authors-row">
             <div className="book-author-chip">
-              <Image src="/images/joan-kirera.jpeg" alt="" width={72} height={91} />
+              <SafeImage src="/images/joan-kirera.jpeg" alt="" width={72} height={91} />
               <span>Joan Kirera</span>
             </div>
             <span className="book-authors-divider">&amp;</span>
@@ -121,7 +121,7 @@ export default function BookPageClient() {
 
         <div className="book-hero-visual">
           <div className="book-3d-wrapper">
-            <Image
+            <SafeImage
               className="book-cover-img"
               src="/images/book-cover.jpeg"
               alt="From Dating to Marriage – Dr. Rose Misati & Joan Kirera"

@@ -122,7 +122,9 @@
 .blog-emphasis,
 .blog-emphasis-purple { font-weight: 600; }
 
+/* Tailwind's reset strips list markers, so restore them for article lists */
 .blog-list {
+  list-style: decimal outside;
   margin: var(--space-lg) 0;
   padding-left: var(--space-xl);
 }

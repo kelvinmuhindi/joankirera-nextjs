@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 
 export const metadata = {
   title: "About Joan Kirera",
@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <section className="profile-section">
       <div className="profile-image">
-        <Image
+        <SafeImage
           src="/images/joan-kirera.jpeg"
           alt="Joan Kirera - Professional Therapist"
           width={856}

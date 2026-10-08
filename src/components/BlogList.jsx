@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 
 const CATEGORIES = [
@@ -144,7 +144,7 @@ export default function BlogList({ posts }) {
                 key={post.slug}
               >
                 <div className="panel__media">
-                  <Image
+                  <SafeImage
                     src={post.image}
                     alt=""
                     fill

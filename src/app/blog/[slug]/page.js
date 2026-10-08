@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllBlogMeta, getBlogPost } from "@/lib/blog";
@@ -34,7 +34,7 @@ export default async function BlogPostPage({ params }) {
 
         {post.image && (
           <div className="blog-post-image-wrapper fade-in">
-            <Image
+            <SafeImage
               src={post.image}
               alt={post.title}
               width={1200}
