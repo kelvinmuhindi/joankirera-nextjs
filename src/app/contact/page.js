@@ -1,9 +1,18 @@
 import ContactForm from "@/components/ContactForm";
+import { socialMeta } from "@/lib/seo";
+
+const title = "Contact";
+const description =
+  "Get in touch with Joan Kirera to book a therapy session, ask a question, or arrange a media appearance.";
 
 export const metadata = {
-  title: "Contact",
-  description:
-    "Get in touch with Joan Kirera to book a therapy session, ask a question, or arrange a media appearance.",
+  title,
+  description,
+  ...socialMeta({
+    title,
+    description,
+    path: "/contact",
+  }),
 };
 
 export default function ContactPage() {

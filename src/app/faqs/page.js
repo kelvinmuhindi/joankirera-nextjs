@@ -1,9 +1,18 @@
 import Link from "next/link";
+import { socialMeta } from "@/lib/seo";
+
+const title = "FAQs";
+const description =
+  "Frequently asked questions about therapy, counseling sessions, and Joan Kirera's expertise in mental health.";
 
 export const metadata = {
-  title: "FAQs",
-  description:
-    "Frequently asked questions about therapy, counseling sessions, and Joan Kirera's expertise in mental health.",
+  title,
+  description,
+  ...socialMeta({
+    title,
+    description,
+    path: "/faqs",
+  }),
 };
 
 const FAQS = [

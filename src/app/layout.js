@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import { socialMeta } from "@/lib/seo";
 
 const playfair = localFont({
   src: [
@@ -21,14 +22,18 @@ const sourceSans = localFont({
   display: "swap",
 });
 
+const siteTitle = "Joan Kirera - Therapist & Mental Health Educator";
+const siteDescription =
+  "Joan Kirera is a professional therapist, speaker, and mental health educator.";
+
 export const metadata = {
   metadataBase: new URL("https://joankirera.com"),
   title: {
-    default: "Joan Kirera - Therapist & Mental Health Educator",
+    default: siteTitle,
     template: "%s | Joan Kirera",
   },
-  description:
-    "Joan Kirera is a professional therapist, speaker, and mental health educator.",
+  description: siteDescription,
+  ...socialMeta({ title: siteTitle, description: siteDescription, path: "/" }),
   icons: {
     icon: "/images/logo.jpeg",
   },

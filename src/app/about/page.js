@@ -1,9 +1,18 @@
 import SafeImage from "@/components/SafeImage";
+import { socialMeta } from "@/lib/seo";
+
+const title = "About Joan Kirera";
+const description =
+  "Learn about Joan Kirera's journey from engineering to becoming a professional therapist, speaker, and mental health educator.";
 
 export const metadata = {
-  title: "About Joan Kirera",
-  description:
-    "Learn about Joan Kirera's journey from engineering to becoming a professional therapist, speaker, and mental health educator.",
+  title,
+  description,
+  ...socialMeta({
+    title,
+    description,
+    path: "/about",
+  }),
 };
 
 export default function AboutPage() {

@@ -1,4 +1,5 @@
 import SafeImage from "@/components/SafeImage";
+import { DEFAULT_OG_IMAGE, socialMeta } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllBlogMeta, getBlogPost } from "@/lib/blog";
@@ -11,9 +12,32 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) return {};
+
+  const description = `${post.title} - Joan Kirera`;
+
+  // Use the article's own picture when social crawlers can read it
+  // (jpg/png/webp). SVG and the odd .jfif fall back to the site card.
+  const usable = /\.(jpe?g|png|webp)$/i.test(post.image || "");
+  const image = usable
+    ? { url: post.image, alt: post.title }
+    : DEFAULT_OG_IMAGE;
+
+  const published = new Date(post.date);
+  const extra = Number.isNaN(published.getTime())
+    ? {}
+    : { publishedTime: published.toISOString() };
+
   return {
     title: post.title,
-    description: `${post.title} - Joan Kirera`,
+    description,
+    ...socialMeta({
+      title: post.title,
+      description,
+      path: `/blog/${slug}`,
+      image,
+      type: "article",
+      extra,
+    }),
   };
 }
 

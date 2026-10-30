@@ -1,9 +1,18 @@
 import Link from "next/link";
+import { socialMeta } from "@/lib/seo";
+
+const title = "Media";
+const description =
+  "Watch Joan Kirera's broadcast interviews, TV segments, and news features on counseling psychology, marriage, and family therapy.";
 
 export const metadata = {
-  title: "Media",
-  description:
-    "Watch Joan Kirera's broadcast interviews, TV segments, and news features on counseling psychology, marriage, and family therapy.",
+  title,
+  description,
+  ...socialMeta({
+    title,
+    description,
+    path: "/media",
+  }),
 };
 
 const VIDEOS = [

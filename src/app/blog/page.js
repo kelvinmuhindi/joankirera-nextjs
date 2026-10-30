@@ -1,10 +1,19 @@
 import { getAllBlogMeta } from "@/lib/blog";
 import BlogList from "@/components/BlogList";
+import { socialMeta } from "@/lib/seo";
+
+const title = "Blog";
+const description =
+  "Mental health and therapy insights from Joan Kirera — articles on marriage, parenting, grief, relationships, and personal growth.";
 
 export const metadata = {
-  title: "Blog",
-  description:
-    "Mental health and therapy insights from Joan Kirera — articles on marriage, parenting, grief, relationships, and personal growth.",
+  title,
+  description,
+  ...socialMeta({
+    title,
+    description,
+    path: "/blog",
+  }),
 };
 
 export default function BlogPage() {
